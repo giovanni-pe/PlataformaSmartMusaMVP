@@ -1,0 +1,80 @@
+<div class="c-main container-fluid col-md-12">
+  <div class="card-header">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100px; margin-bottom: 20px;">
+      <h2 style="background-color: #042c57; color: white; padding: 10px 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        Monitoreo de Cámaras Térmicas
+      </h2>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <label for="inputSearch">Buscar por Nombre</label>
+        <input type="text" class="form-control" id="inputSearch" placeholder="Buscar..." (input)="onSearchTermChanged($event)" />
+      </div>
+    </div>
+
+    <div class="row" *ngFor="let camera of filteredCameras">
+      <div class="col-md-12">
+        <c-card class="mb-4">
+          <c-card-header>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="fs-4 fw-semibold">{{ camera.name }}</div> <!-- Cambiado de nombre a name -->
+              <mat-icon>camera</mat-icon>
+            </div>
+          </c-card-header>
+          <c-card-body>
+            <div class="row">
+              <!-- Sección de temperatura -->
+              <div class="col-md-4">
+                <c-card class="mb-2">
+                  <c-card-header>
+                    <h5><mat-icon>thermostat</mat-icon> Temperatura</h5>
+                  </c-card-header>
+                  <c-card-body>
+                    <div class="fs-2">{{ camera.temperatura }}°C</div>
+                    <mat-progress-bar mode="determinate" [value]="camera.temperatura" color="warn"></mat-progress-bar>
+                  </c-card-body>
+                </c-card>
+              </div>
+              <!-- Sección de humedad relativa -->
+              <div class="col-md-4">
+                <c-card class="mb-2">
+                  <c-card-header>
+                    <h5><mat-icon>water_drop</mat-icon> Humedad Relativa</h5>
+                  </c-card-header>
+                  <c-card-body>
+                    <div class="fs-2">{{ camera.humedad }}%</div>
+                    <mat-progress-bar mode="determinate" [value]="camera.humedad" color="primary"></mat-progress-bar>
+                  </c-card-body>
+                </c-card>
+              </div>
+              <!-- Sección de humedad del suelo -->
+              <div class="col-md-4">
+                <c-card class="mb-2">
+                  <c-card-header>
+                    <h5><mat-icon>grass</mat-icon> Humedad del Suelo</h5>
+                  </c-card-header>
+                  <c-card-body>
+                    <div class="fs-2">{{ camera.soil_humidity }}%</div>
+                    <mat-progress-bar mode="determinate" [value]="camera.soil_humidity" color="accent"></mat-progress-bar>
+                  </c-card-body>
+                </c-card>
+              </div>
+            </div>
+            <!-- Descripción de la cámara y estado de riego -->
+            <div class="text-body-secondary mt-2">
+              Descripción: {{ camera.description }} <!-- Cambiado de descripcion a description -->
+            </div>
+            <div class="text-body-secondary mt-2">
+              Riego Activo: {{ camera.riegoActivo ? 'Sí' : 'No' }}
+            </div>
+            <!-- Botón para activar/desactivar riego -->
+            <button c-button class="btn btn-primary mt-3" (click)="accionarRiego(camera)">
+              {{ camera.riegoActivo ? 'Desactivar' : 'Activar' }} Riego
+            </button>
+          </c-card-body>
+        </c-card>
+      </div>
+    </div>
+  </div>
+</div>
